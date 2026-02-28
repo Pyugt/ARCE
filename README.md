@@ -114,7 +114,7 @@ ecommerce/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ecommerce.git
+git clone https://github.com/Pyugt/ARCE.git
 cd ecommerce
 ```
 
