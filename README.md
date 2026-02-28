@@ -286,8 +286,3 @@ JWT_EXPIRE=7d
 NODE_ENV=development
 ```
 
----
-
-## License
-
-MIT — Free to use for portfolio and educational purposes.
