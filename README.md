@@ -8,7 +8,7 @@ A production-quality e-commerce web application built with the MERN stack (Mongo
 
 ## Features
 
-- **Authentication** — JWT-based login/register with bcrypt password hashing.
+- **Authentication** — JWT-based login/register with bcrypt password hashing
 - **Product Catalog** — Search, filter by category, pagination
 - **Product Details** — Full detail view with customer reviews and star ratings
 - **Shopping Cart** — Add, update quantity, remove items, persistent per user
