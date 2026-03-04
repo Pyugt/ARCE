@@ -55,7 +55,7 @@ export default function OrdersPage() {
                   <span className={`px-2.5 py-0.5 text-xs font-medium capitalize rounded-full ${STATUS_COLORS[order.orderStatus]}`}>
                     {order.orderStatus}
                   </span>
-                  <span className="price-tag text-lg">${order.totalPrice.toFixed(2)}</span>
+                  <span className="price-tag text-lg">₹{order.totalPrice.toLocaleString('en-IN')}</span>
                 </div>
               </div>
 
@@ -69,7 +69,7 @@ export default function OrdersPage() {
               </div>
 
               <div className="flex items-center justify-between text-xs text-stone-400">
-                <span>{new Date(order.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                <span>{new Date(order.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                 <Link to={`/order-success/${order._id}`} className="text-stone-600 hover:text-stone-900 font-medium transition-colors">
                   View Details →
                 </Link>
