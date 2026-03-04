@@ -51,17 +51,17 @@ export default function OrderSuccessPage() {
                   <p className="text-sm font-medium text-stone-800 line-clamp-1">{item.name}</p>
                   <p className="text-xs text-stone-400">Qty: {item.quantity}</p>
                 </div>
-                <span className="font-mono text-sm">${(item.price * item.quantity).toFixed(2)}</span>
+                <span className="font-mono text-sm">₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
               </div>
             ))}
           </div>
 
           <div className="border-t border-stone-200 pt-4 flex flex-col gap-2 text-sm">
-            <div className="flex justify-between"><span className="text-stone-500">Subtotal</span><span className="font-mono">${order.itemsPrice.toFixed(2)}</span></div>
-            <div className="flex justify-between"><span className="text-stone-500">Shipping</span><span className="font-mono">${order.shippingPrice.toFixed(2)}</span></div>
-            <div className="flex justify-between"><span className="text-stone-500">Tax</span><span className="font-mono">${order.taxPrice.toFixed(2)}</span></div>
+            <div className="flex justify-between"><span className="text-stone-500">Subtotal</span><span className="font-mono">₹{order.itemsPrice.toLocaleString('en-IN')}</span></div>
+            <div className="flex justify-between"><span className="text-stone-500">Shipping</span><span className="font-mono">₹{order.shippingPrice.toLocaleString('en-IN')}</span></div>
+            <div className="flex justify-between"><span className="text-stone-500">GST</span><span className="font-mono">₹{order.taxPrice.toLocaleString('en-IN')}</span></div>
             <div className="flex justify-between font-semibold text-base pt-2 border-t border-stone-200">
-              <span>Total</span><span className="price-tag">${order.totalPrice.toFixed(2)}</span>
+              <span>Total</span><span className="price-tag">₹{order.totalPrice.toLocaleString('en-IN')}</span>
             </div>
           </div>
 
