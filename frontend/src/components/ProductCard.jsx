@@ -80,7 +80,7 @@ export default function ProductCard({ product }) {
         {/* Price + Button */}
         <div className="flex items-center justify-between mt-4 pt-3 border-t border-stone-100">
           <span className="font-mono font-semibold text-stone-900 text-base">
-            ${product.price.toFixed(2)}
+            ₹{product.price.toLocaleString('en-IN')}
           </span>
           <button
             onClick={handleAddToCart}
