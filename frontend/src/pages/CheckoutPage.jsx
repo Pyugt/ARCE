@@ -4,20 +4,27 @@ import api from '../api/axios'
 import { useCart } from '../context/CartContext'
 import toast from 'react-hot-toast'
 
-const PAYMENT_METHODS = ['Credit Card', 'PayPal', 'Cash on Delivery']
+const PAYMENT_METHODS = [
+  { id: 'UPI', label: 'UPI', sub: 'GPay, PhonePe, Paytm, BHIM' },
+  { id: 'Credit Card', label: 'Credit / Debit Card', sub: 'Visa, Mastercard, RuPay' },
+  { id: 'Net Banking', label: 'Net Banking', sub: 'All major Indian banks' },
+  { id: 'Cash on Delivery', label: 'Cash on Delivery', sub: 'Pay when your order arrives' },
+  { id: 'EMI', label: 'EMI', sub: 'No Cost EMI on orders above ₹3,000' },
+  { id: 'Wallet', label: 'Wallets', sub: 'Paytm, Mobikwik, Freecharge, Amazon Pay' },
+]
 
 export default function CheckoutPage() {
   const { cart, fetchCart } = useCart()
   const navigate = useNavigate()
 
-  const [form, setForm] = useState({ address: '', city: '', postalCode: '', country: '' })
-  const [paymentMethod, setPaymentMethod] = useState('Credit Card')
+  const [form, setForm] = useState({ address: '', city: '', postalCode: '', country: 'India' })
+  const [paymentMethod, setPaymentMethod] = useState('UPI')
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({})
 
   const subtotal = cart.totalPrice || 0
-  const shipping = subtotal > 100 ? 0 : 10
-  const tax = subtotal * 0.08
+  const shipping = subtotal > 5000 ? 0 : 99
+  const tax = subtotal * 0.18
   const total = subtotal + shipping + tax
 
   const handleChange = (e) => {
@@ -29,7 +36,7 @@ export default function CheckoutPage() {
     const errs = {}
     if (!form.address.trim()) errs.address = 'Address is required'
     if (!form.city.trim()) errs.city = 'City is required'
-    if (!form.postalCode.trim()) errs.postalCode = 'Postal code is required'
+    if (!form.postalCode.trim()) errs.postalCode = 'PIN code is required'
     if (!form.country.trim()) errs.country = 'Country is required'
     return errs
   }
@@ -71,10 +78,10 @@ export default function CheckoutPage() {
             </h2>
             <div className="flex flex-col gap-4">
               {[
-                { name: 'address', label: 'Street Address', placeholder: '123 Main St' },
-                { name: 'city', label: 'City', placeholder: 'New York' },
-                { name: 'postalCode', label: 'Postal Code', placeholder: '10001' },
-                { name: 'country', label: 'Country', placeholder: 'United States' },
+                { name: 'address', label: 'Street Address', placeholder: '42, MG Road, Indiranagar' },
+                { name: 'city', label: 'City', placeholder: 'Bengaluru' },
+                { name: 'postalCode', label: 'PIN Code', placeholder: '560038' },
+                { name: 'country', label: 'Country', placeholder: 'India' },
               ].map(({ name, label, placeholder }) => (
                 <div key={name}>
                   <label className="block text-xs font-medium tracking-wider uppercase text-stone-400 mb-1.5">{label}</label>
@@ -100,16 +107,19 @@ export default function CheckoutPage() {
             </h2>
             <div className="flex flex-col gap-2">
               {PAYMENT_METHODS.map((method) => (
-                <label key={method} className={`flex items-center gap-3 p-4 cursor-pointer border transition-colors ${paymentMethod === method ? 'border-stone-700 bg-stone-50' : 'border-stone-200 hover:border-stone-300'}`}>
+                <label key={method.id} className={`flex items-center gap-3 p-4 cursor-pointer border transition-colors ${paymentMethod === method.id ? 'border-stone-700 bg-stone-50' : 'border-stone-200 hover:border-stone-300'}`}>
                   <input
                     type="radio"
-                    value={method}
-                    checked={paymentMethod === method}
+                    value={method.id}
+                    checked={paymentMethod === method.id}
                     onChange={(e) => setPaymentMethod(e.target.value)}
                     className="w-4 h-4 accent-stone-700"
                   />
-                  <span className="text-sm font-medium text-stone-700">{method}</span>
-                  {method === 'Credit Card' && <span className="ml-auto text-xs text-stone-400 font-mono">Mock — no real charge</span>}
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-stone-700">{method.label}</span>
+                    <span className="text-xs text-stone-400">{method.sub}</span>
+                  </div>
+                  {method.id === 'UPI' && <span className="ml-auto text-xs text-stone-400 font-mono">Instant · Secure</span>}
                 </label>
               ))}
             </div>
@@ -130,24 +140,24 @@ export default function CheckoutPage() {
                   <img src={item.product?.image} alt={item.product?.name} className="w-10 h-10 object-cover bg-stone-100" onError={(e) => { e.target.src = 'https://via.placeholder.com/40' }} />
                   <span className="flex-grow text-sm text-stone-700 line-clamp-1">{item.product?.name}</span>
                   <span className="text-sm font-mono text-stone-600">×{item.quantity}</span>
-                  <span className="text-sm font-mono text-stone-900">${(item.price * item.quantity).toFixed(2)}</span>
+                  <span className="text-sm font-mono text-stone-900">₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
                 </div>
               ))}
             </div>
 
             <div className="flex flex-col gap-2 text-sm pt-3 border-t border-stone-200">
-              <div className="flex justify-between"><span className="text-stone-500">Subtotal</span><span className="font-mono">${subtotal.toFixed(2)}</span></div>
-              <div className="flex justify-between"><span className="text-stone-500">Shipping</span><span className="font-mono">{shipping === 0 ? <span className="text-emerald-600">Free</span> : `$${shipping.toFixed(2)}`}</span></div>
-              <div className="flex justify-between"><span className="text-stone-500">Tax</span><span className="font-mono">${tax.toFixed(2)}</span></div>
+              <div className="flex justify-between"><span className="text-stone-500">Subtotal</span><span className="font-mono">₹{subtotal.toLocaleString('en-IN')}</span></div>
+              <div className="flex justify-between"><span className="text-stone-500">Shipping</span><span className="font-mono">{shipping === 0 ? <span className="text-emerald-600">Free</span> : `₹${shipping}`}</span></div>
+              <div className="flex justify-between"><span className="text-stone-500">GST (18%)</span><span className="font-mono">₹{tax.toFixed(2)}</span></div>
               <div className="flex justify-between pt-3 border-t border-stone-200 font-semibold text-base">
-                <span>Total</span><span className="price-tag">${total.toFixed(2)}</span>
+                <span>Total</span><span className="price-tag">₹{total.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</span>
               </div>
             </div>
 
             <button type="submit" disabled={loading || !cart.items.length} className="btn-primary w-full py-4 text-sm mt-6">
               {loading ? (
                 <><span className="w-4 h-4 border border-stone-300 border-t-transparent rounded-full animate-spin" /> Placing Order...</>
-              ) : `Place Order — $${total.toFixed(2)}`}
+              ) : `Place Order — ₹${total.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`}
             </button>
 
             <p className="text-center text-xs text-stone-400 mt-3">This is a demo — no real payment is processed</p>
