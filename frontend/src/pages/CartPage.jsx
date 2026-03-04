@@ -7,8 +7,8 @@ export default function CartPage() {
   const navigate = useNavigate()
 
   const subtotal = cart.totalPrice || 0
-  const shipping = subtotal > 100 ? 0 : subtotal > 0 ? 10 : 0
-  const tax = subtotal * 0.08
+  const shipping = subtotal > 5000 ? 0 : subtotal > 0 ? 99 : 0
+  const tax = subtotal * 0.18
   const total = subtotal + shipping + tax
 
   if (loading) return <Spinner size="lg" className="min-h-[60vh]" />
@@ -40,7 +40,7 @@ export default function CartPage() {
                   <Link to={`/products/${item.product?._id}`} className="font-medium text-stone-900 text-sm hover:text-amber-700 line-clamp-1 transition-colors">
                     {item.product?.name}
                   </Link>
-                  <p className="price-tag text-sm text-stone-600 mt-0.5">${item.price.toFixed(2)} each</p>
+                  <p className="price-tag text-sm text-stone-600 mt-0.5">₹{item.price.toLocaleString('en-IN')} each</p>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -49,7 +49,7 @@ export default function CartPage() {
                     <span className="w-8 text-center font-mono text-sm">{item.quantity}</span>
                     <button onClick={() => updateQuantity(item.product?._id, item.quantity + 1)} className="w-8 h-8 flex items-center justify-center text-stone-600 hover:bg-stone-100 text-lg">+</button>
                   </div>
-                  <span className="price-tag w-20 text-right">${(item.price * item.quantity).toFixed(2)}</span>
+                  <span className="price-tag w-24 text-right">₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
                   <button onClick={() => removeFromCart(item.product?._id)} className="text-stone-300 hover:text-red-500 transition-colors ml-2">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                   </button>
@@ -64,22 +64,22 @@ export default function CartPage() {
             <div className="flex flex-col gap-3 text-sm">
               <div className="flex justify-between">
                 <span className="text-stone-500">Subtotal</span>
-                <span className="font-mono">${subtotal.toFixed(2)}</span>
+                <span className="font-mono">₹{subtotal.toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-stone-500">Shipping</span>
-                <span className="font-mono">{shipping === 0 ? <span className="text-emerald-600">Free</span> : `$${shipping.toFixed(2)}`}</span>
+                <span className="font-mono">{shipping === 0 ? <span className="text-emerald-600">Free</span> : `₹${shipping}`}</span>
               </div>
-              {subtotal > 0 && subtotal <= 100 && (
-                <p className="text-xs text-stone-400">Add ${(100 - subtotal).toFixed(2)} more for free shipping</p>
+              {subtotal > 0 && subtotal <= 5000 && (
+                <p className="text-xs text-stone-400">Add ₹{(5000 - subtotal).toLocaleString('en-IN')} more for free shipping</p>
               )}
               <div className="flex justify-between">
-                <span className="text-stone-500">Tax (8%)</span>
-                <span className="font-mono">${tax.toFixed(2)}</span>
+                <span className="text-stone-500">GST (18%)</span>
+                <span className="font-mono">₹{tax.toFixed(2)}</span>
               </div>
               <div className="flex justify-between pt-4 border-t border-stone-200 font-medium text-base">
                 <span>Total</span>
-                <span className="price-tag">${total.toFixed(2)}</span>
+                <span className="price-tag">₹{total.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</span>
               </div>
             </div>
             <button onClick={() => navigate('/checkout')} className="btn-primary w-full py-3.5 text-sm mt-6">
