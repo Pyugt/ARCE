@@ -95,7 +95,7 @@ export default function ProductDetailPage() {
           <p className="mt-6 text-stone-600 leading-relaxed">{product.description}</p>
 
           <div className="flex items-baseline gap-3 mt-8">
-            <span className="font-display text-4xl font-medium text-stone-900">${product.price.toFixed(2)}</span>
+            <span className="font-display text-4xl font-medium text-stone-900">₹{product.price.toLocaleString('en-IN')}</span>
             {product.stock > 0 ? (
               <span className="text-sm text-emerald-600 font-medium">{product.stock} in stock</span>
             ) : (
