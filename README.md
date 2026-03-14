@@ -9,12 +9,6 @@ A production-quality e-commerce web application built with the **MERN stack** (M
 
 ---
 
-## Screenshots
-
-> _Add screenshots of your homepage, product page, cart, and admin dashboard here._
-
----
-
 ## Features
 
 ### Customer
@@ -306,8 +300,3 @@ Pull requests are welcome. For major changes, please open an issue first.
 4. Push to your branch: `git push origin feature/your-feature`
 5. Open a pull request
 
----
-
-## License
-
-This project is open source under the [MIT License](LICENSE).
