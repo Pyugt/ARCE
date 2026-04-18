@@ -1,6 +1,6 @@
 # ARCÉ — Full-Stack E-Commerce Platform
 
-A production-quality e-commerce web application built with the **MERN stack** (MongoDB, Express.js, React, Node.js). Features a modern UI, JWT authentication, admin dashboard, shopping cart, and full order management.
+A production-quality e-commerce web application built with the **MERN stack** (MongoDB, Express.js, React, Node.js). Features a modern UI, JWT authentication, admin dashboard, shopping cart, and full order management
 
 ![React](https://img.shields.io/badge/React-18-blue?logo=react)
 ![Node](https://img.shields.io/badge/Node.js-Express-green?logo=node.js)
